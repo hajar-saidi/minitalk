@@ -6,47 +6,47 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 11:59:23 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/10 22:26:18 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/12 22:05:02 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-
-void	send_mesage(int pid, char *str)
+static void	send_mesage(pid_t pid, char c)
 {
-	int	result;
-	int	i;
-	int	j;
+	int	shift;
 
-	i = 0;
-	while (str[i] != '\0')
+	shift = 7;
+	while (shift >= 0)
 	{
-		j = 0;
-		while (j < 8)
+		if (c & (1 << shift))
 		{
-			result = str[i] >> j & 1;
-			if (result == 0)
-				kill(pid, SIGUSR2);
-			else
-				kill(pid, SIGUSR1);
-			usleep(100);
-			j++;
+			if (kill(pid, SIGUSR1) == -1)
+				exit(1);
 		}
-		i++;
+		else
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				exit(1);
+		}
+		shift--;
+		printf("%d\n",SIGUSR1);
+		printf("%d\n",SIGUSR2);
+		usleep(200);
 	}
 }
-void	signal(int piid)
+
+void	send(char *input, pid_t pid)
 {
 	int	i;
 
 	i = 0;
-	while (i < 8)
+	while (input[i])
 	{
-		kill(piid, SIGUSR2);
-		usleep(100);
+		send_mesage(pid, input[i]);
 		i++;
 	}
+	send_mesage(pid, '\0');
 }
 
 int pid_check(char *id)
@@ -81,9 +81,9 @@ int	main(int argc, char **argv)
    }
    else
    {
-		pid_check(argv[1]);
-		send_mesage(pid, argv[2]);
-	  	signal(pid);
-   } 
+		pid =pid_check(argv[1]);
+		send(argv[2],pid);
+		printf("done\n");
+   }
    exit(0);
 }

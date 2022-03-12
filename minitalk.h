@@ -6,7 +6,7 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:08:34 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/10 17:30:10 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/12 15:19:22 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 
 int	ft_atoi(const char *str);
 void	ft_putstr(char *k);
-
-
+void	ft_putchar(char c);
+void	ft_putnbr(int n);
 #endif

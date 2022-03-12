@@ -6,43 +6,41 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:01:45 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/10 17:53:02 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/12 22:04:53 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	sig_handler(int signum)
+void send_asci(int sig)
 {
-	static char	c;
-	static int	bits = 7;
-
-	if (signum == SIGUSR1)
-		c |= (1 << bits);
-	else if (signum == SIGUSR2)
-		c &= ~(1 << bits);
-	bits--;
-	if (bits == -1)
+	static char c;
+	static int i;
+	
+	if (sig == SIGUSR2)
+		c +=(1 << i);
+	// printf("%d\n",SIGUSR1);
+	// printf("%d\n",SIGUSR2);
+	// else if (sig = SIGUSR2)
+	// 	c += (0 << i);
+		i++;
+	if(c == 8)
 	{
-		write(1, &c, 1);
-		bits = 7;
-		if (c == '\0')
-		{
-			write(1, "\n", 1);
-			c = 0;
-		}
+		write(1,&c,1);
+		if(c == '\0')
+			write(1,"\n",1);
 	}
+	i = 0;
+	c = 0; 
 }
-
-int	main(void)
+int main(int ac,char **av)
 {
-	pid_t	pid;
-
+	pid_t pid;
 	pid = getpid();
-	printf("PID : %d\n", pid);
-	signal(SIGUSR1, sig_handler);
-	signal(SIGUSR2, sig_handler);
-	while (1)
+	write(1,"PID:",5);
+	ft_putnbr(pid);
+	signal(SIGUSR1,send_asci);
+	signal(SIGUSR2,send_asci);
+	while(1)
 		pause();
 }
-
