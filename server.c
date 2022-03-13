@@ -6,7 +6,7 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:01:45 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/13 22:39:29 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/13 22:56:11 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void send_asci(int sig)
 	}
 	 
 }
-int main(int ac,char **av)
+int main(void)
 {
 	pid_t pid;
 	pid = getpid();
