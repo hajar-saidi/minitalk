@@ -6,7 +6,7 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 11:59:23 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/12 22:05:02 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/13 22:42:25 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	send_mesage(pid_t pid, char c)
 {
 	int	shift;
 
-	shift = 7;
-	while (shift >= 0)
+	shift = 0;
+	while (shift < 8)
 	{
 		if (c & (1 << shift))
 		{
@@ -29,21 +29,19 @@ static void	send_mesage(pid_t pid, char c)
 			if (kill(pid, SIGUSR2) == -1)
 				exit(1);
 		}
-		shift--;
-		printf("%d\n",SIGUSR1);
-		printf("%d\n",SIGUSR2);
-		usleep(200);
+		shift++;
+		usleep(400);
 	}
 }
 
-void	send(char *input, pid_t pid)
+void	send(char *str, pid_t pid)
 {
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (str[i])
 	{
-		send_mesage(pid, input[i]);
+		send_mesage(pid, str[i]);
 		i++;
 	}
 	send_mesage(pid, '\0');
