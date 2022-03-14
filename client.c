@@ -6,7 +6,7 @@
 /*   By: hsaidi <hsaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 11:59:23 by hsaidi            #+#    #+#             */
-/*   Updated: 2022/03/13 22:42:25 by hsaidi           ###   ########.fr       */
+/*   Updated: 2022/03/14 22:42:06 by hsaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,41 +47,42 @@ void	send(char *str, pid_t pid)
 	send_mesage(pid, '\0');
 }
 
-int pid_check(char *id)
+int	pid_check(char *id)
 {
-	pid_t pid;
+	pid_t	pid;
+
 	pid = ft_atoi(id);
 	if (id == NULL || id == 0)
 	{
-		ft_putstr("u need pid\n");
+		ft_putstr("Check pid\n");
 		exit (1);
 	}
-	while(*id)
+	while (*id)
 	{
-		if(*id < '0' || *id > '9')
+		if (*id < '0' || *id > '9')
 		{
-			ft_putstr("check ur pid\n");
+			ft_putstr("WAIT check your pid!\n");
 			exit(1);
 		}
-		id++;	
+		id++;
 	}
-	return(pid);
+	return (pid);
 }
 
 int	main(int argc, char **argv)
 {
-   int	pid;
+	int	pid;
 
-   if (argc != 3)
-   {
-   	printf("client: invalid arguments\n");
-   	exit(EXIT_FAILURE);
-   }
-   else
-   {
-		pid =pid_check(argv[1]);
-		send(argv[2],pid);
-		printf("done\n");
-   }
-   exit(0);
+	if (argc != 3)
+	{
+		ft_putstr("You need pid and msg...\n");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		pid = pid_check(argv[1]);
+		send(argv[2], pid);
+		ft_putstr("DONE.\n");
+	}
+	exit(0);
 }
